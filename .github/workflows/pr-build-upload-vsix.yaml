@@ -2,7 +2,7 @@ name: PR Build And Upload VSIX
 
 # Builds and uploads VSIX artifacts for the `oneper` script across Linux, Windows, and macOS ARM platforms
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -15,13 +15,36 @@ jobs:
         include:
           - platform: linux
             arch: x64
+            npm_config_arch: x64
+            runner: ubuntu-latest
+          - platform: linux
+            arch: arm64
+            npm_config_arch: arm64
+            runner: ubuntu-latest
+          - platform: linux
+            arch: armhf
+            npm_config_arch: arm
             runner: ubuntu-latest
           - platform: win32
             arch: x64
+            npm_config_arch: x64
+            runner: windows-latest
+          - platform: win32
+            arch: arm64
+            npm_config_arch: arm
             runner: windows-latest
           - platform: darwin
-            arch: arm64
+            arch: x64
+            npm_config_arch: x64
             runner: macos-latest
+          - platform: darwin
+            arch: arm64
+            npm_config_arch: arm64
+            runner: macos-latest
+          - platform: alpine
+            arch: x64
+            npm_config_arch: x64
+            runner: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v6
@@ -33,7 +56,7 @@ jobs:
         with:
           platform: ${{ matrix.platform }}
           arch: ${{ matrix.arch }}
-          npm_config_arch: ${{ matrix.arch }}
+          npm_config_arch: ${{ matrix.npm_config_arch }}
           pre-release: false
           commit-sha: ${{ github.sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
