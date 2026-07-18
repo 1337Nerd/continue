@@ -2,6 +2,7 @@ import { NEXT_EDIT_MODELS } from "../llm/constants.js";
 import { BaseNextEditModelProvider } from "./providers/BaseNextEditProvider.js";
 import { InstinctProvider } from "./providers/InstinctNextEditProvider.js";
 import { MercuryCoderProvider } from "./providers/MercuryCoderNextEditProvider.js";
+import { SweepProvider } from "./providers/SweepNextEditProvider.js";
 
 export class NextEditProviderFactory {
   static createProvider(modelName: string): BaseNextEditModelProvider {
@@ -9,6 +10,8 @@ export class NextEditProviderFactory {
       return new MercuryCoderProvider();
     } else if (modelName.includes(NEXT_EDIT_MODELS.INSTINCT)) {
       return new InstinctProvider();
+    } else if (modelName.includes(NEXT_EDIT_MODELS.SWEEP)) {
+      return new SweepProvider();
     } else {
       throw new Error(`Unsupported model: ${modelName}`);
     }

@@ -524,7 +524,10 @@ export function getTemplateForModel(model: string): AutocompleteTemplate {
     return mercuryMultifileFimTemplate;
   }
 
-  if (lowerCaseModel.includes("qwen") && lowerCaseModel.includes("coder")) {
+  if (
+    (lowerCaseModel.includes("qwen") && lowerCaseModel.includes("coder")) ||
+    lowerCaseModel.includes("sweep")
+  ) {
     return qwenMultifileFimTemplate;
   }
 

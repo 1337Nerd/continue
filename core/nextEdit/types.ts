@@ -109,6 +109,13 @@ export interface MercuryTemplateVars extends TemplateVars {
   currentFilePath: string;
 }
 
+export interface SweepTemplateVars extends TemplateVars {
+  contextFiles: { filepath: string; content: string }[];
+  editDiffHistory: { original: string; updated: string }[];
+  currentFilePath: string;
+  currentFileContent: string;
+}
+
 /**
  * Context object containing all necessary information for model-specific operations.
  */

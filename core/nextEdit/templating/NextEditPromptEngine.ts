@@ -8,6 +8,7 @@ import {
   MERCURY_EDIT_DIFF_HISTORY_OPEN,
   MERCURY_RECENTLY_VIEWED_CODE_SNIPPETS_CLOSE,
   MERCURY_RECENTLY_VIEWED_CODE_SNIPPETS_OPEN,
+  SWEEP_FILE_SEP,
 } from "../constants";
 import { NextEditTemplate, TemplateVars } from "../types";
 
@@ -21,6 +22,9 @@ export const NEXT_EDIT_MODEL_TEMPLATES: Record<
   },
   instinct: {
     template: `${INSTINCT_USER_PROMPT_PREFIX}\n\n### Context:\n{{{contextSnippets}}}\n\n### User Edits:\n\n{{{editDiffHistory}}}\n\n### User Excerpt:\n{{{currentFilePath}}}\n\n{{{currentFileContent}}}\`\`\`\n### Response:`,
+  },
+  sweep: {
+    template: `{{{recentlyViewedCodeSnippets}}}\n{{{editDiffHistory}}}\n${SWEEP_FILE_SEP}current/{{{currentFilePath}}}\n{{{currentFileContent}}}\n${SWEEP_FILE_SEP}updated/{{{currentFilePath}}}\n`,
   },
 };
 
