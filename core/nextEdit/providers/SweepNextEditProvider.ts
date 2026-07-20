@@ -40,6 +40,10 @@ export class SweepProvider extends BaseNextEditModelProvider {
     return "";
   }
 
+  shouldUseCompletionsEndpoint(): boolean {
+    return true;
+  }
+
   extractCompletion(message: string): string {
     const fileSepIndex = message.indexOf(SWEEP_FILE_SEP);
     const completion =

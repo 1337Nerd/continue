@@ -470,20 +470,29 @@ export class NextEditProvider {
     // prompts[1] extracts the user prompt from the system-user prompt pair.
     // NOTE: Stream is currently set to false, but this should ideally be a per-model flag.
     // Mercury Coder currently does not support streaming.
-    const msg: ChatMessage = await llm.chat(
-      this.endpointType === "fineTuned" ? [prompts[1]] : prompts,
-      token,
-      {
+    let nextCompletion: string;
+
+    if (this.modelProvider.shouldUseCompletionsEndpoint()) {
+      const userPrompt = prompts.find((p) => p.role === "user")?.content ?? "";
+      const rawResponse = await llm.complete(userPrompt, token, {
         stream: false,
-      },
-    );
+      });
+      nextCompletion = this.modelProvider.extractCompletion(rawResponse);
+    } else {
+      const msg: ChatMessage = await llm.chat(
+        this.endpointType === "fineTuned" ? [prompts[1]] : prompts,
+        token,
+        {
+          stream: false,
+        },
+      );
 
-    if (typeof msg.content !== "string") {
-      return undefined;
+      if (typeof msg.content !== "string") {
+        return undefined;
+      }
+
+      nextCompletion = this.modelProvider.extractCompletion(msg.content);
     }
-
-    // Extract completion using model-specific logic.
-    let nextCompletion = this.modelProvider.extractCompletion(msg.content);
 
     // Postprocess the completion (same as autocomplete).
     const postprocessed = postprocessCompletion({

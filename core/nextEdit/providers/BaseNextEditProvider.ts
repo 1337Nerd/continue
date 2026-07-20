@@ -467,4 +467,8 @@ export abstract class BaseNextEditModelProvider {
   getUniqueToken(): string | null {
     return null;
   }
+
+  shouldUseCompletionsEndpoint(): boolean {
+    return false;
+  }
 }
